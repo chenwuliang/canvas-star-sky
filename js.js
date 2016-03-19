@@ -48,6 +48,42 @@ Star.prototype.update = function() {
 };
 
 
+//流行构造函数
+function ShootingStar() {
+    this.reset();
+}
+
+ShootingStar.prototype.reset = function() {
+    this.x = Math.random() * width;
+    this.y = 0;
+    this.len = (Math.random() * 80) + 10;
+    this.speed = (Math.random() * 10) + 6;
+    this.size = (Math.random()) + 0.1;
+    this.waitTime = new Date().getTime() + (Math.random() * 3000) + 500;
+    this.active = false;
+};
+
+ShootingStar.prototype.update = function() {
+    if (this.active) {
+        this.x -= this.speed;
+        this.y += this.speed;
+        if (this.x < 0 || this.y >= height) {
+            this.reset();
+        } else {
+            bgCtx.lineWidth = this.size;
+            bgCtx.beginPath();
+            bgCtx.moveTo(this.x, this.y);
+            bgCtx.lineTo(this.x + this.len, this.y - this.len);
+            bgCtx.stroke();
+        }
+    } else {
+        if (this.waitTime < new Date().getTime()) {
+            this.active = true;
+        }
+    }
+};
+
+
 //设置bgCtx宽高
 bgCtx.width = background.width = width;
 bgCtx.height = background.height = height;
@@ -64,6 +100,10 @@ for (i = 0; i < height; i++) {
         y: Math.random() * height
     }));
 }
+
+//添加流星
+entities.push(new ShootingStar());
+entities.push(new ShootingStar());
 
 //背景动画
 function animate() {
