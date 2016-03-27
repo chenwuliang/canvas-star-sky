@@ -2,6 +2,14 @@
  * Created by llissery on 2016/3/13.
  */
 
+(function() {
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
+    window.requestAnimationFrame = requestAnimationFrame;
+})();
+
 var background = document.getElementById("bgCanvas"),
     bgCtx = background.getContext("2d"),
     width = window.innerWidth,
